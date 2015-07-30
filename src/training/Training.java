@@ -164,9 +164,10 @@ public class Training extends Application {
         choiceLayout.getChildren().addAll(chooseLabel, choiceBox, chooseNow);
         Scene scene7 = new Scene(choiceLayout);
         button10.setOnAction(e -> window.setScene(scene7) );
+        
+           // Extracting the data
         chooseNow.setOnAction(e -> System.out.println("Your favourite fruit is: " + choiceBox.getValue().toString()));
         
-        // asdasd
         
 
         window.setScene(scene1);
