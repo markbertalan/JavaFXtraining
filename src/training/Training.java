@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -66,10 +67,11 @@ public class Training extends Application {
         Button button8 = new Button("Extracting scene");
         Button button9 = new Button("CheckBox scene");
         Button button10 = new Button("ChoiceBox scene");
+        Button button11 = new Button("ComboBox scene");
 
         //Layout 2
         VBox layout2 = new VBox(10);
-        layout2.getChildren().addAll(button2, button3, button4, button5, button6, button7, button8, button9, button10);
+        layout2.getChildren().addAll(button2, button3, button4, button5, button6, button7, button8, button9, button10, button11);
         scene2 = new Scene(layout2, 900, 600);
 
         //Layout 3 BorderPane
@@ -109,71 +111,88 @@ public class Training extends Application {
         TextField passInput = new TextField();
         passInput.setPromptText("password");
         grid.setConstraints(passInput, 1, 1);
-        
+
         Button loginButton = new Button("Log In");
         grid.setConstraints(loginButton, 1, 2);
-        
-        grid.getChildren().addAll(nameLabel,nameInput,passLabel,passInput,loginButton);
-        
+
+        grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton);
+
         Scene scene4 = new Scene(grid, 300, 300);
         button7.setOnAction(e -> window.setScene(scene4));
-        
+
         //Extracting Data
-        
         VBox exLayout = new VBox();
         exLayout.setPadding(new Insets(20, 20, 20, 20));
-        TextField exField= new TextField();
+        TextField exField = new TextField();
         exField.setPromptText("Write your string here");
         Button exButton = new Button("Extract");
-        exLayout.getChildren().addAll(exField,exButton);
+        exLayout.getChildren().addAll(exField, exButton);
         Scene scene5 = new Scene(exLayout);
         button8.setOnAction(e -> window.setScene(scene5));
         exButton.setOnAction(e -> isInt(exField, exField.getText()));
-       
+
         //CheckBox
-        
-        
         VBox checkLayout = new VBox();
-        checkLayout.setPadding(new Insets(20,20,20,20));
+        checkLayout.setPadding(new Insets(20, 20, 20, 20));
         Button OrderNow = new Button("Order Now");
-        
+
         CheckBox box1 = new CheckBox("Bacon");
         CheckBox box2 = new CheckBox("Tuna");
         box2.setSelected(true);
         CheckBox box3 = new CheckBox("Shit");
-        
-        checkLayout.getChildren().addAll(box1, box2 , box3 , OrderNow);
+
+        checkLayout.getChildren().addAll(box1, box2, box3, OrderNow);
         Scene scene6 = new Scene(checkLayout);
-        button9.setOnAction(e -> window.setScene(scene6) );
-        OrderNow.setOnAction(e -> handleOptions(box1, box2 , box3));
-        
+        button9.setOnAction(e -> window.setScene(scene6));
+        OrderNow.setOnAction(e -> handleOptions(box1, box2, box3));
+
         // ChoiceBox
-        
         VBox choiceLayout = new VBox();
-        choiceLayout.setPadding(new Insets(20,20,20,20));
+        choiceLayout.setPadding(new Insets(20, 20, 20, 20));
         Button chooseNow = new Button("Choose Now");
         Label chooseLabel = new Label("Select your favourite fruit!");
-        
+
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         choiceBox.getItems().add("Apple");
         choiceBox.getItems().add("Banana");
         choiceBox.getItems().add("Pineapple");
-        choiceBox.getItems().addAll("Bacon","Ham", "Meatballs" );
-        
-          //Adding a listener for choosing items
-        
+        choiceBox.getItems().addAll("Bacon", "Ham", "Meatballs");
+
+        //Adding a listener for choosing items
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> System.out.println(newValue));
-        
-        
+
         choiceLayout.getChildren().addAll(chooseLabel, choiceBox, chooseNow);
         Scene scene7 = new Scene(choiceLayout);
-        button10.setOnAction(e -> window.setScene(scene7) );
-        
-           // Extracting the data
-        chooseNow.setOnAction(e -> System.out.println("Your favourite fruit is: " + choiceBox.getValue().toString()));
-        
-        
+        button10.setOnAction(e -> window.setScene(scene7));
 
+        // Extracting the data
+        chooseNow.setOnAction(e -> System.out.println("Your favourite fruit is: " + choiceBox.getValue().toString()));
+
+        //ComboBox
+        VBox comboLayout = new VBox();
+        comboLayout.setPadding(new Insets(20, 20, 20, 20));
+        Button comboNow = new Button("Choose Now");
+        Label comboLabel = new Label("Select your favourite fruit!");
+
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.getItems().add("Apple");
+        comboBox.getItems().add("Banana");
+        comboBox.getItems().add("Pineapple");
+        comboBox.getItems().addAll("Bacon", "Ham", "Meatballs");
+        comboBox.setPromptText("What is your favourite fruit?");
+        comboNow.setOnAction(e -> System.out.println("User submitted: " + comboBox.getValue().toString()));
+        
+        //It triggers it its own action
+        comboBox.setOnAction(e -> System.out.println("User selected: " + comboBox.getValue()));
+        
+        // You can actually edit it on your own
+        comboBox.setEditable(true);
+
+        comboLayout.getChildren().addAll(comboLabel, comboBox, comboNow);
+        Scene scene8 = new Scene(comboLayout);
+        button11.setOnAction(e -> window.setScene(scene8));
+
+        //Adding a listener for choosing items
         window.setScene(scene1);
         window.setTitle("Title");
         window.show();
@@ -192,37 +211,31 @@ public class Training extends Application {
             window.close();
         }
     }
-    
-    private boolean isInt(TextField input, String message)
-    {
-        try{
+
+    private boolean isInt(TextField input, String message) {
+        try {
             int age = Integer.parseInt(input.getText());
             System.out.println("User is " + age);
             return true;
-        }catch(NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             System.out.println("Error: " + message + "is not a number");
             return false;
         }
-        
+
     }
-    
-    private void handleOptions(CheckBox box1, CheckBox box2, CheckBox box3)
-    {
+
+    private void handleOptions(CheckBox box1, CheckBox box2, CheckBox box3) {
         String message = "Orders are: ";
-        if(box1.isSelected())
-        {
+        if (box1.isSelected()) {
             message += "Bacon, ";
         }
-        if(box2.isSelected())
-        {
+        if (box2.isSelected()) {
             message += "Tuna, ";
         }
-        if(box3.isSelected())
-        {
+        if (box3.isSelected()) {
             message += "Shit, ";
         }
-        
+
         System.out.println(message);
     }
 
