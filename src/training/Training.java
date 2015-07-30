@@ -160,6 +160,10 @@ public class Training extends Application {
         choiceBox.getItems().add("Pineapple");
         choiceBox.getItems().addAll("Bacon","Ham", "Meatballs" );
         
+          //Adding a listener for choosing items
+        
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> System.out.println(newValue));
+        
         
         choiceLayout.getChildren().addAll(chooseLabel, choiceBox, chooseNow);
         Scene scene7 = new Scene(choiceLayout);
