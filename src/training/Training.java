@@ -6,6 +6,8 @@
 package training;
 
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -66,16 +68,16 @@ public class Training extends Application {
         }
         );
         Button button6 = new Button("BorderPane");
-        Button button7 = new Button("Gridpane");
+        Button button7 = new Button("Gridpane with CSS");
         Button button8 = new Button("Extracting scene");
         Button button9 = new Button("CheckBox scene");
         Button button10 = new Button("ChoiceBox scene");
         Button button11 = new Button("ComboBox scene");
         Button button12 = new Button("List view");
-
+        Button button13 = new Button("Real time updating Label");
         //Layout 2
         VBox layout2 = new VBox(10);
-        layout2.getChildren().addAll(button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12);
+        layout2.getChildren().addAll(button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13);
         scene2 = new Scene(layout2, 900, 600);
 
         //Layout 3 BorderPane
@@ -236,7 +238,29 @@ public class Training extends Application {
         Scene scene9 = new Scene(listLayout);
         button12.setOnAction(e -> window.setScene(scene9));
         
+        // Properties
         
+         Person berti = new Person();
+         berti.firstNameProperty().addListener((v, oldValue, newValue) -> {
+         System.out.println("Name changed to: " + newValue + " from " + oldValue);
+         });   //When you change the name it is gonna emit an event which is described in the code!
+        
+        // Binding properties
+         IntegerProperty x = new SimpleIntegerProperty(3);
+         IntegerProperty y = new SimpleIntegerProperty(0);
+         y.bind(x.multiply(10)); //When x is changed y will also change to 10*x
+               
+        //Binding properties with a real time updating label
+         VBox bindingHbox = new VBox();
+         TextField wantToUpdate = new TextField();
+         Label basicText = new Label(" Hello you");
+         Label updatingText = new Label();
+         bindingHbox.getChildren().addAll(wantToUpdate, basicText, updatingText);
+         updatingText.textProperty().bind(wantToUpdate.textProperty());
+         Scene scene10 = new Scene(bindingHbox, 300, 200);
+         button13.setOnAction(e -> window.setScene(scene10));
+         
+         
         window.setScene(scene1);
         window.setTitle("Title");
         window.show();
