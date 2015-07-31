@@ -6,6 +6,7 @@
 package training;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +14,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -68,10 +71,11 @@ public class Training extends Application {
         Button button9 = new Button("CheckBox scene");
         Button button10 = new Button("ChoiceBox scene");
         Button button11 = new Button("ComboBox scene");
+        Button button12 = new Button("List view");
 
         //Layout 2
         VBox layout2 = new VBox(10);
-        layout2.getChildren().addAll(button2, button3, button4, button5, button6, button7, button8, button9, button10, button11);
+        layout2.getChildren().addAll(button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12);
         scene2 = new Scene(layout2, 900, 600);
 
         //Layout 3 BorderPane
@@ -100,6 +104,7 @@ public class Training extends Application {
         grid.setHgap(10);
 
         Label nameLabel = new Label("Username:");
+        nameLabel.setId("bold-label");
         grid.setConstraints(nameLabel, 0, 0);
 
         TextField nameInput = new TextField();
@@ -114,10 +119,18 @@ public class Training extends Application {
 
         Button loginButton = new Button("Log In");
         grid.setConstraints(loginButton, 1, 2);
+        
+        Button signupButton = new Button("Sign up");
+        signupButton.getStyleClass().add("button-blue");
+        grid.setConstraints(signupButton, 1, 3);
+        
+        
+        
 
-        grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton);
+        grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton, signupButton);
 
-        Scene scene4 = new Scene(grid, 300, 300);
+        Scene scene4 = new Scene(grid, 300, 200);
+        scene4.getStylesheets().add(this.getClass().getResource("Hello.css").toExternalForm());
         button7.setOnAction(e -> window.setScene(scene4));
 
         //Extracting Data
@@ -192,7 +205,38 @@ public class Training extends Application {
         Scene scene8 = new Scene(comboLayout);
         button11.setOnAction(e -> window.setScene(scene8));
 
-        //Adding a listener for choosing items
+        //ListView
+        
+        VBox listLayout = new VBox();
+        listLayout.setPadding(new Insets(20,20,20,20));
+        Button listSubmit = new Button("Submit");
+        
+        ListView<String> list = new ListView<>();
+        list.getItems().addAll("Iron Man ", "Hulk " , "Thor ", "Spiderman ");
+        list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        
+        listSubmit.setOnAction(e -> {
+                 String listMessage="";
+                 ObservableList<String> heroes;
+                 heroes = list.getSelectionModel().getSelectedItems();
+                 for(int i=0; i< heroes.size(); i++)
+                        {
+                            listMessage += heroes.get(i).toString();
+                            
+            
+                        }
+                 System.out.println("Your favourite heroes: " + listMessage);
+        
+                                      });
+        
+        
+        
+        listLayout.getChildren().addAll(list,listSubmit);
+        
+        Scene scene9 = new Scene(listLayout);
+        button12.setOnAction(e -> window.setScene(scene9));
+        
+        
         window.setScene(scene1);
         window.setTitle("Title");
         window.show();
